@@ -1,0 +1,43 @@
+<?php
+
+header('Content-Type: application/json');
+// Create a connection to the database.
+include "./config.php";
+
+// Get the data from the database.
+$sql = 'SELECT DISTINCT day, month, year FROM events';
+$results = $db->query($sql);
+
+// Convert the results to an array.
+$events = [];
+foreach ($results as $row) {
+    $events[] = array(
+        'day' => $row['day'],
+        'month' => $row['month'],
+        'year' => $row['year'],
+        'events' => array()
+    );
+}
+
+for ($i=0; $i < count($events); $i++) { 
+    $sql = 'SELECT * FROM events WHERE day = ' . $events[$i]['day'] . ' AND month = ' . $events[$i]['month'] . ' AND year = ' . $events[$i]['year']. ' ORDER BY id ASC';
+    $results = $db->query($sql);
+    foreach ($results as $row) {
+        $events[$i]['events'][] = array(
+            'title' => $row['title'],
+            'time' => $row['time'],
+            'location' => $row['location'],
+            'description' => $row['description'],
+            'level' => $row['level'],
+            'id' => $row['id']
+        );
+    }
+}
+
+// Convert the array to JSON.
+$json_data = json_encode($events);
+
+// echo the JSON data.
+echo $json_data;
+
+?>
