@@ -148,16 +148,17 @@
             "Sabtu",
         ];
 
-        var eventsArr = [];
         getAllData();
+        var eventsArr = [];
 
         // function to get all event data from database
         function getAllData() {
             $.ajax({
                 url: "./php/getAllData.php",
                 type: "GET",
-                dataType: "json",
+                dataType: "JSON",
                 success: function (data) {
+                    // console.log(data);
                     for (let i = 0; i < data.length; i++) {
                         eventsArr.push(data[i]);
                     }
@@ -165,6 +166,8 @@
                 },
             });
         }
+
+        console.log(eventsArr);
 
         //function to add days in days with class day and prev-date next-date on previous month and next month days and active on today
         function initCalendar() {
@@ -189,17 +192,17 @@
                 let event = false;
                 eventsArr.forEach((eventObj) => {
                     if (
-                        eventObj.day === i &&
-                        eventObj.month === month + 1 &&
-                        eventObj.year === year
+                        eventObj.day == i &&
+                        eventObj.month == month + 1 &&
+                        eventObj.year == year
                     ) {
                         event = true;
                     }
                 });
                 if (
-                    i === new Date().getDate() &&
-                    year === new Date().getFullYear() &&
-                    month === new Date().getMonth()
+                    i == new Date().getDate() &&
+                    year == new Date().getFullYear() &&
+                    month == new Date().getMonth()
                 ) {
                     activeDay = i;
                     getActiveDay(i);
@@ -271,7 +274,7 @@
                             days.forEach((day) => {
                                 if (
                                     !day.classList.contains("prev-date") &&
-                                    day.innerHTML === e.target.innerHTML
+                                    day.innerHTML == e.target.innerHTML
                                 ) {
                                     day.classList.add("active");
                                 }
@@ -285,7 +288,7 @@
                             days.forEach((day) => {
                                 if (
                                     !day.classList.contains("next-date") &&
-                                    day.innerHTML === e.target.innerHTML
+                                    day.innerHTML == e.target.innerHTML
                                 ) {
                                     day.classList.add("active");
                                 }
@@ -307,14 +310,14 @@
 
         dateInput.addEventListener("input", (e) => {
             dateInput.value = dateInput.value.replace(/[^0-9/]/g, "");
-            if (dateInput.value.length === 2) {
+            if (dateInput.value.length == 2) {
                 dateInput.value += "/";
             }
             if (dateInput.value.length > 7) {
                 dateInput.value = dateInput.value.slice(0, 7);
             }
-            if (e.inputType === "deleteContentBackward") {
-                if (dateInput.value.length === 3) {
+            if (e.inputType == "deleteContentBackward") {
+                if (dateInput.value.length == 3) {
                     dateInput.value = dateInput.value.slice(0, 2);
                 }
             }
@@ -325,8 +328,8 @@
         function gotoDate() {
             console.log("here");
             const dateArr = dateInput.value.split("/");
-            if (dateArr.length === 2) {
-                if (dateArr[0] > 0 && dateArr[0] < 13 && dateArr[1].length === 4) {
+            if (dateArr.length == 2) {
+                if (dateArr[0] > 0 && dateArr[0] < 13 && dateArr[1].length == 4) {
                     month = dateArr[0] - 1;
                     year = dateArr[1];
                     initCalendar();
@@ -349,16 +352,16 @@
             let events = "";
             eventsArr.forEach((event) => {
                 if (
-                    date === event.day &&
-                    month + 1 === event.month &&
-                    year === event.year
+                    date == event.day &&
+                    month + 1 == event.month &&
+                    year == event.year
                 ) {
                     event.events.forEach((event) => {
                         let level = "0";
                         let isExpired = false;
 
-                        if (event.level === "1") level = "sedang";
-                        else if(event.level === "2") level = "penting";
+                        if (event.level == "1") level = "sedang";
+                        else if(event.level == "2") level = "penting";
 
                         if (today > new Date(year, month, date + 1)) {
                             isExpired = true;
@@ -380,7 +383,7 @@
                     });
                 }
             });
-            if (events === "") {
+            if (events == "") {
                 events = `<div class="no-event">
             <h3>Tidak ada kegiatan</h3>
         </div>`;
@@ -412,7 +415,7 @@
         //allow only time in eventtime from and to
         addEventFrom.addEventListener("input", (e) => {
             addEventFrom.value = addEventFrom.value.replace(/[^0-9:]/g, "");
-            if (addEventFrom.value.length === 2) {
+            if (addEventFrom.value.length == 2) {
                 addEventFrom.value += ":";
             }
             if (addEventFrom.value.length > 5) {
@@ -422,7 +425,7 @@
 
         addEventTo.addEventListener("input", (e) => {
             addEventTo.value = addEventTo.value.replace(/[^0-9:]/g, "");
-            if (addEventTo.value.length === 2) {
+            if (addEventTo.value.length == 2) {
                 addEventTo.value += ":";
             }
             if (addEventTo.value.length > 5) {
@@ -438,7 +441,7 @@
             const eventLevel = addEventLevel.value;
             const eventTimeFrom = addEventFrom.value;
             const eventTimeTo = addEventTo.value;
-            if (eventTitle === "" || eventTimeFrom === "" || eventTimeTo === "" || eventLocation === "" || eventDescription === "") {
+            if (eventTitle == "" || eventTimeFrom == "" || eventTimeTo == "" || eventLocation == "" || eventDescription == "") {
                 alert("Please fill all the fields");
                 return;
             }
@@ -471,7 +474,7 @@
                     updateEvents(activeDay);
                 },
                 error: function (data) {
-                    console.log(data.responseText)
+                    alert(data.responseText)
                 },
             });
 

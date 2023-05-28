@@ -1,5 +1,5 @@
 <?php
 
-$db = new PDO('mysql:host=localhost;dbname=my_kalender', 'root', '');
+$db = new PDO('mysql:host=localhost;dbname=test', 'root', '');
 
 ?>
