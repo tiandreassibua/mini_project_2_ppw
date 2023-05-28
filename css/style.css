@@ -361,10 +361,19 @@ footer {
   font-weight: 400;
 }
 
+h3.event-title.isExpired {
+  text-decoration: line-through;
+  color: #878895;
+}
+
+h3.event-title.isExpired ~ .expired {
+  color: red;
+}
+
 .events .event .fas {
   /* color: var(--primary-clr); */
   position: relative;
-  margin-left: 5px;
+  margin: 0 10px;
   top: -3px;
   font-size: 0.5rem;
 }

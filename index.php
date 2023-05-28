@@ -355,12 +355,19 @@
                 ) {
                     event.events.forEach((event) => {
                         let level = "0";
+                        let isExpired = false;
+
                         if (event.level === "1") level = "sedang";
                         else if(event.level === "2") level = "penting";
+
+                        if (today > new Date(year, month, date + 1)) {
+                            isExpired = true;
+                        }
+                        
                         events += `<div class="event">
                         <input type="hidden" id="${event.id}" value="${event.id}"/>
             <div class="title">
-              <h3 class="event-title">${event.title} <i class="fas fa-circle ${level}"></i></h3>
+              <h3 class="event-title ${isExpired ? "isExpired" : ""}">${event.title} <i class="fas fa-circle ${level}"></i></h3> ${isExpired ? "<i class='expired'>expired</i>" : ""}
             </div>
             <div class="event-time">
             <span class="event-time desc">${event.description}</span><br><br>
@@ -508,10 +515,6 @@
                 updateEvents(activeDay);
             }
         });
-
-
-        //function to get events from local storage
-
 
         function convertTime(time) {
             //convert time to 24 hour format

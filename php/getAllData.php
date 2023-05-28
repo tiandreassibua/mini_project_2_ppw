@@ -20,7 +20,7 @@ foreach ($results as $row) {
 }
 
 for ($i=0; $i < count($events); $i++) { 
-    $sql = 'SELECT * FROM events WHERE day = ' . $events[$i]['day'] . ' AND month = ' . $events[$i]['month'] . ' AND year = ' . $events[$i]['year']. ' ORDER BY id ASC';
+    $sql = 'SELECT * FROM events WHERE day = ' . $events[$i]['day'] . ' AND month = ' . $events[$i]['month'] . ' AND year = ' . $events[$i]['year']. ' ORDER BY level DESC';
     $results = $db->query($sql);
     foreach ($results as $row) {
         $events[$i]['events'][] = array(
