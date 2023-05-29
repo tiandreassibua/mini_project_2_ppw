@@ -6,6 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Kalender</title>
+    <!-- icon rel -->
+    <link rel="icon" href="https://www.iconarchive.com/download/i103365/paomedia/small-n-flat/calendar.1024.png" />
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -17,77 +20,80 @@
     <header>
         <h2>My Kalender</h2>
     </header>
-    <div class="container">
-        <div class="left">
-            <div class="calendar">
-                <div class="month">
-                    <i class="fa fa-angle-left prev"></i>
-                    <div class="date"></div>
-                    <i class="fa fa-angle-right next"></i>
-                </div>
-                <div class="weekdays">
-                    <div>Min</div>
-                    <div>Sen</div>
-                    <div>Sel</div>
-                    <div>Rab</div>
-                    <div>Kam</div>
-                    <div>Jum</div>
-                    <div>Sab</div>
-                </div>
-                <div class="days"></div>
-                <div class="goto-today">
-                    <div class="goto">
-                        <input type="text" placeholder="mm/yyyy" class="date-input" />
-                        <button class="goto-btn">go</button>
+
+    <div class="content-wrapper">
+        <div class="container">
+            <div class="left">
+                <div class="calendar">
+                    <div class="month">
+                        <i class="fa fa-angle-left prev"></i>
+                        <div class="date"></div>
+                        <i class="fa fa-angle-right next"></i>
                     </div>
-                    <button class="today-btn">Hari ini</button>
+                    <div class="weekdays">
+                        <div>Min</div>
+                        <div>Sen</div>
+                        <div>Sel</div>
+                        <div>Rab</div>
+                        <div>Kam</div>
+                        <div>Jum</div>
+                        <div>Sab</div>
+                    </div>
+                    <div class="days"></div>
+                    <div class="goto-today">
+                        <div class="goto">
+                            <input type="text" placeholder="mm/yyyy" class="date-input" />
+                            <button class="goto-btn">go</button>
+                        </div>
+                        <button class="today-btn">Hari ini</button>
+                    </div>
                 </div>
             </div>
+            <div class="right">
+                <div class="today-date">
+                    <div class="event-day"></div>
+                    <div class="event-date"></div>
+                </div>
+                <div class="events">
+                    <!-- will be dynamic -->
+                </div>
+                <div class="add-event-wrapper">
+                    <div class="add-event-header">
+                        <div class="title">Tambah Kegiatan</div>
+                        <i class="fas fa-times close"></i>
+                    </div>
+                    <div class="add-event-body">
+                        <div class="add-event-input">
+                            <input type="text" placeholder="Nama kegiatan" class="event-name" />
+                        </div>
+                        <div class="add-event-input">
+                            <input type="text" placeholder="Deskripsi" class="event-description" />
+                        </div>
+                        <div class="add-event-input">
+                            <input type="text" placeholder="Lokasi" class="event-location" />
+                        </div>
+                        <div class="add-event-input">
+                            <input type="text" placeholder="Waktu mulai" class="event-time-from" />
+                            <input type="text" placeholder="Waktu selesai " class="event-time-to" />
+                        </div>
+                        <div class="add-event-input">
+                            <select class="event-level">
+                                <option value="0">Pilih level penting</option>
+                                <option value="0">Biasa</option>
+                                <option value="1">Sedang</option>
+                                <option value="2">Sangat Penting</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="add-event-footer">
+                        <button class="add-event-btn">Simpan</button>
+                    </div>
+                </div>
+            </div>
+            <button class="add-event">
+                <i class="fas fa-plus"></i>
+            </button>
         </div>
-        <div class="right">
-            <div class="today-date">
-                <div class="event-day"></div>
-                <div class="event-date"></div>
-            </div>
-            <div class="events">
-                <!-- will be dynamic -->
-            </div>
-            <div class="add-event-wrapper">
-                <div class="add-event-header">
-                    <div class="title">Tambah Kegiatan</div>
-                    <i class="fas fa-times close"></i>
-                </div>
-                <div class="add-event-body">
-                    <div class="add-event-input">
-                        <input type="text" placeholder="Nama kegiatan" class="event-name" />
-                    </div>
-                    <div class="add-event-input">
-                        <input type="text" placeholder="Deskripsi" class="event-description" />
-                    </div>
-                    <div class="add-event-input">
-                        <input type="text" placeholder="Lokasi" class="event-location" />
-                    </div>
-                    <div class="add-event-input">
-                        <input type="text" placeholder="Waktu mulai" class="event-time-from" />
-                        <input type="text" placeholder="Waktu selesai " class="event-time-to" />
-                    </div>
-                    <div class="add-event-input">
-                        <select class="event-level">
-                            <option value="0">Pilih level penting</option>
-                            <option value="0">Biasa</option>
-                            <option value="1">Sedang</option>
-                            <option value="2">Sangat Penting</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="add-event-footer">
-                    <button class="add-event-btn">Simpan</button>
-                </div>
-            </div>
-        </div>
-        <button class="add-event">
-            <i class="fas fa-plus"></i>
-        </button>
     </div>
 
     <footer>
@@ -361,12 +367,12 @@
                         let isExpired = false;
 
                         if (event.level == "1") level = "sedang";
-                        else if(event.level == "2") level = "penting";
+                        else if (event.level == "2") level = "penting";
 
                         if (today > new Date(year, month, date + 1)) {
                             isExpired = true;
                         }
-                        
+
                         events += `<div class="event">
                         <input type="hidden" id="${event.id}" value="${event.id}"/>
             <div class="title">

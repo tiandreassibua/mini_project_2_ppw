@@ -1,6 +1,12 @@
 :root {
-  --primary-clr: #1B9C85;
+  --primary-clr: #8B7E74;
+  --bg-primary-clr: #65647C;
+  --bg-secondary-clr: #504f62;
+  /* --primary-clr: #e85900;
+  --bg-primary-clr: #3d3d3d;
+  --bg-secondary-clr: #252525; */
 }
+
 
 * {
   margin: 0;
@@ -24,14 +30,13 @@
   border-radius: 50px;
 }
 
-body {
+.content-wrapper {
   position: relative;
   min-height: 100vh;
-  /* display: flex; */
-  /* align-items: center; */
-  /* justify-content: center; */
-  /* padding-bottom: 30px; */
-  background-color: #4C4C6D;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-primary-clr);
 }
 
 header {
@@ -42,7 +47,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #41415d;
+  background-color: var(--bg-secondary-clr);
   z-index: 100;
   color: #fff;
 }
@@ -53,7 +58,7 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #41415d;
+  background-color: var(--bg-secondary-clr);
   z-index: 100;
   color: #fff;
 }
@@ -68,12 +73,12 @@ footer {
   display: flex;
 
   border-radius: 10px;
-  background-color: #4C4C6D;
+  background-color: var(--bg-primary-clr);
 }
 
 .left {
   width: 60%;
-  padding: 20px;
+  /* padding: 20px; */
 }
 
 .calendar {
@@ -85,7 +90,8 @@ footer {
   flex-wrap: wrap;
   justify-content: space-between;
   color: #878895;
-  border-radius: 5px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
   background-color: #fff;
 }
 
@@ -286,6 +292,9 @@ footer {
   width: 40%;
   /* min-height: 100%; */
   padding: 20px 0;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background-color: var(--bg-secondary-clr);
 }
 
 .right .today-date {
@@ -337,7 +346,7 @@ footer {
   padding: 10px 20px;
   padding-left: 50px;
   color: #fff;
-  background: linear-gradient(90deg, #3f4458, transparent);
+  background: linear-gradient(90deg, var(--bg-secondary-clr), transparent);
   cursor: pointer;
 }
 
@@ -405,26 +414,6 @@ h3.event-title.isExpired ~ .expired {
 .events .event:hover .event-time {
   color: #fff;
 }
-
-/* add tick in event after */
-/* .events .event::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: 0;
-  font-size: 3rem;
-  line-height: 1;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  opacity: 0.3;
-  color: var(--primary-clr);
-  transform: translateY(-50%);
-}
-
-.events .event:hover::after {
-  display: flex;
-} */
 
 .add-event {
   position: absolute;
@@ -586,7 +575,7 @@ h3.event-title.isExpired ~ .expired {
   body {
     align-items: flex-start;
     justify-content: flex-start;
-  }
+  } 
 
   .container {
     min-height: 100vh;
@@ -600,10 +589,15 @@ h3.event-title.isExpired ~ .expired {
     padding: 20px 0;
   }
 
+  .calendar {
+    border-radius: 0;
+  }
+
   .container .right {
     width: 100%;
     height: 100%;
     padding: 20px 0;
+    border-radius: 0;
   }
 
   .calendar::before,
@@ -631,6 +625,10 @@ h3.event-title.isExpired ~ .expired {
 }
 
 @media screen and (max-width: 500px) {
+  .calendar {
+    border-radius: 0;
+  }
+  
   .calendar .month {
     height: 75px;
   }
