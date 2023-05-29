@@ -382,7 +382,7 @@
             <span class="event-time desc">${event.description}</span><br><br>
             <span class="event-time">
             <i class="fa-solid fa-location-pin"></i>
-                <b>${event.location} | ${event.time}</b>
+                <b><span class="location">${event.location}</span> | ${event.time}</b>
             </span>
             </div>
         </div>`;

@@ -411,6 +411,10 @@ h3.event-title.isExpired ~ .expired {
   pointer-events: none;
 }
 
+.events .event .event-time span.location {
+  text-transform: uppercase;
+}
+
 .events .event:hover .event-time {
   color: #fff;
 }
