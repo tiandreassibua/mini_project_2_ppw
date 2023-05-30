@@ -14,8 +14,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="./css/style.css" />
     <link rel="stylesheet" href="./css/modal.css">
+    <link rel="stylesheet" href="./css/style.css" />
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 </head>
 
@@ -556,15 +556,21 @@
 
         function showDetail(event) {
             let isExpired = false;
-            // membandingkan tanggal hari ini dengan tanggal dari event
-            if (new Date(event.year, event.month - 1, event.day + 1) < new Date()) isExpired = true;
+            const date = new Date();
 
+            if (date.getDate() > event.day || date.getMonth() + 1 > event.month || date.getFullYear() > event.year) isExpired = true;
+
+            // if (isExpired) {
+            //     alert("Kegiatan ini sudah berakhir");
+            // } else {
+            //     console.log(false);
+            // }
 
             if (isExpired) {
                 alert("Kegiatan ini sudah berakhir");
                 return;
             }
-            // else {
+            else {
                 const detail = document.querySelector(".modalDetail");
                 detail.style.display = "block";
 
@@ -596,8 +602,7 @@
                 else if (event.level == 2) level = "Sangat Penting";
                 levelDetail.innerHTML = level;
             }
-
-        // }
+        }
 
         // fungsi untuk menghilangkan modal ketika tombol close di klik
         const close = document.querySelector(".close-modal");

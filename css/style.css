@@ -1,7 +1,7 @@
 :root {
-  --primary-clr: #8B7E74;
-  --bg-primary-clr: #65647C;
-  --bg-secondary-clr: #504f62;
+  --primary-clr: #245953;
+  --bg-primary-clr: #3c3c3c;
+  --bg-secondary-clr: #2c2c2c;
 }
 
 
@@ -65,7 +65,6 @@ footer {
   width: 1400px;
   min-height: 832px;
   margin: 0 auto;
-  /* padding: 5px; */
   color: #fff;
   display: flex;
 

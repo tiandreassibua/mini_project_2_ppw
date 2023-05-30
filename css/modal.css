@@ -1,11 +1,11 @@
 :root {
-    --primary-clr: #8B7E74;
-    --danger-clr: #ab5151;
-    --bg-primary-clr: #65647C;
-    --bg-secondary-clr: #504f62;
-    /* --primary-clr: #e85900;
-    --bg-primary-clr: #3d3d3d;
-    --bg-secondary-clr: #252525; */
+    --primary-color: #8B7E74;
+    --danger-color: #ab5151;
+    --bg-primary-color: #434242;
+    --bg-secondary-color: #242429;
+    /* --primary-color: #e85900;
+    --bg-primary-color: #3d3d3d;
+    --bg-secondary-color: #252525; */
 }
 
 .modalDetail {
@@ -40,7 +40,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 20px 30px;
-    background-color: var(--bg-secondary-clr);
+    background-color: var(--bg-secondary-color);
     font-size: 20px;
     font-weight: 500;
 }
@@ -62,7 +62,7 @@
 
 .modal-body {
     padding: 30px;
-    background-color: var(--bg-primary-clr);
+    background-color: var(--bg-primary-color);
     font-size: 20px;
 }
 
@@ -78,7 +78,7 @@
 }
 
 .modal-body .link-maps:hover {
-    color: var(--primary-clr);
+    color: var(--primary-color);
 }
 
 .fa-solid {
@@ -90,7 +90,7 @@
 
 .modal-footer {
     padding: 10px 30px;
-    background-color: var(--bg-secondary-clr);
+    background-color: var(--bg-secondary-color);
     font-size: 20px;
     font-weight: 500;
 }
@@ -99,7 +99,7 @@
     padding: 5px 10px;
     border-radius: 5px;
     border: none;
-    background-color: var(--danger-clr);
+    background-color: var(--danger-color);
     color: #ffffff;
     font-size: 14px;
     font-weight: 500;
