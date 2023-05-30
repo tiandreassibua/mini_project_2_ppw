@@ -8,11 +8,14 @@
     <title>My Kalender</title>
     <!-- icon rel -->
     <link rel="icon" href="https://www.iconarchive.com/download/i103365/paomedia/small-n-flat/calendar.1024.png" />
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,500;0,600;0,700;0,800;0,900;1,400&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/modal.css">
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 </head>
 
@@ -49,6 +52,38 @@
                     </div>
                 </div>
             </div>
+
+            <!-- start modal detail kegiatan -->
+            <div class="modalDetail">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="title">Detail Kegiatan</div>
+                        <i class="fas fa-times close-modal"></i>
+                    </div>
+                    <div class="modal-body">
+                        <b class="title-detail"></b>
+                        <p class="description-detail"></p><br>
+                        <p>
+                            <span class="fa-solid fa-location-pin"></span>
+                            <span class="location-detail"></span>
+                        </p>
+                        <p>
+                            <span class="fa-solid fa-clock"></span>
+                            <span class="time-detail"></span>
+                        </p>
+                        <p>
+                            <span class="fa-solid fa-level-up"></span>
+                            <span class="level-detail"></span>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn-delete-event">Hapus</button>
+                        <input type="hidden" class="id-detail">
+                    </div>
+                </div>
+            </div>
+            <!-- end modal detail kegiatan -->
+
             <div class="right">
                 <div class="today-date">
                     <div class="event-day"></div>
@@ -57,6 +92,7 @@
                 <div class="events">
                     <!-- will be dynamic -->
                 </div>
+
                 <div class="add-event-wrapper">
                     <div class="add-event-header">
                         <div class="title">Tambah Kegiatan</div>
@@ -100,7 +136,7 @@
         <p>We made with ❤️</p>
     </footer>
 
-    <!-- <script src="./js/script.js"></script> -->
+    <!-- <script src="./js/modal.js"></script> -->
     <script>
         const calendar = document.querySelector(".calendar"),
             date = document.querySelector(".date"),
@@ -164,7 +200,6 @@
                 type: "GET",
                 dataType: "JSON",
                 success: function (data) {
-                    // console.log(data);
                     for (let i = 0; i < data.length; i++) {
                         eventsArr.push(data[i]);
                     }
@@ -172,8 +207,6 @@
                 },
             });
         }
-
-        console.log(eventsArr);
 
         //function to add days in days with class day and prev-date next-date on previous month and next month days and active on today
         function initCalendar() {
@@ -332,7 +365,6 @@
         gotoBtn.addEventListener("click", gotoDate);
 
         function gotoDate() {
-            console.log("here");
             const dateArr = dateInput.value.split("/");
             if (dateArr.length == 2) {
                 if (dateArr[0] > 0 && dateArr[0] < 13 && dateArr[1].length == 4) {
@@ -364,11 +396,11 @@
                 ) {
                     event.events.forEach((event) => {
                         let level = "0";
-                        let isExpired = false;
 
                         if (event.level == "1") level = "sedang";
                         else if (event.level == "2") level = "penting";
 
+                        let isExpired = false;
                         if (today > new Date(year, month, date + 1)) {
                             isExpired = true;
                         }
@@ -379,16 +411,20 @@
               <h3 class="event-title ${isExpired ? "isExpired" : ""}">${event.title} <i class="fas fa-circle ${level}"></i></h3> ${isExpired ? "<i class='expired'>expired</i>" : ""}
             </div>
             <div class="event-time">
-            <span class="event-time desc">${event.description}</span><br><br>
+            
             <span class="event-time">
-            <i class="fa-solid fa-location-pin"></i>
-                <b><span class="location">${event.location}</span> | ${event.time}</b>
+                <b>${event.time}</b>
             </span>
             </div>
         </div>`;
                     });
                 }
             });
+            // <span class="event-time desc">${event.description}</span><br><br>
+            // <span class="event-time">
+            // <i class="fa-solid fa-location-pin"></i>
+            //     <b><span class="location">${event.location}</span> | ${event.time}</b>
+            // </span>
             if (events == "") {
                 events = `<div class="no-event">
             <h3>Tidak ada kegiatan</h3>
@@ -486,7 +522,6 @@
 
             window.location.reload();
 
-            // console.log(eventsArr);
             addEventWrapper.classList.remove("active");
             addEventTitle.value = "";
             addEventLocation.value = "";
@@ -503,27 +538,114 @@
         });
 
         // fungsi untuk menghapus kegiatan ketika kegiatan di klik
+
         eventsContainer.addEventListener("click", (e) => {
             if (e.target.classList.contains("event")) {
-                if (confirm("Yakin ingin menghapus kegiatan ini?")) {
-                    // mengambil id dari event yang di klik
-                    const eventId = e.target.children[0].value;
-
-                    // delete event from database and update eventsArr
-                    $.ajax({
-                        url: "php/deleteData.php",
-                        type: "POST",
-                        data: "id=" + eventId,
-                        success: function (data) {
-                            alert(data);
-                            getAllData();
-                        }
-                    })
-                }
-                window.location.reload();
-                updateEvents(activeDay);
+                const eventId = e.target.children[0].value;
+                // let singeEvent = []
+                $.ajax({
+                    url: "php/getData.php",
+                    type: "GET",
+                    data: "id=" + eventId,
+                    success: function (response) {
+                        showDetail(response[0]);
+                    }
+                });
             }
         });
+
+        function showDetail(event) {
+            let isExpired = false;
+            // membandingkan tanggal hari ini dengan tanggal dari event
+            if (new Date(event.year, event.month - 1, event.day + 1) < new Date()) isExpired = true;
+
+
+            if (isExpired) {
+                alert("Kegiatan ini sudah berakhir");
+                return;
+            }
+            // else {
+                const detail = document.querySelector(".modalDetail");
+                detail.style.display = "block";
+
+                const titleDetail = document.querySelector(".title-detail");
+                const locationDetail = document.querySelector(".location-detail");
+                const timeDetail = document.querySelector(".time-detail");
+                const descriptionDetail = document.querySelector(".description-detail");
+                const levelDetail = document.querySelector(".level-detail");
+                const idDetail = document.querySelector(".id-detail");
+
+                titleDetail.innerHTML = event.title;
+                descriptionDetail.innerHTML = event.description;
+                timeDetail.innerHTML = event.time;
+                idDetail.value = event.id;
+
+                // lakukan pengecekan apakah location berupa link atau bukan
+                var urlPattern = /^(|http|https):\/\/[^ "]+$/;
+                var location = event.location;
+
+                if (urlPattern.test(location)) {
+                    location = `<a href="${location}" class="link-maps" target="_blank">Buka di maps</a>`;
+                }
+
+
+                locationDetail.innerHTML = location;
+
+                let level = "Biasa";
+                if (event.level == 1) level = "Sedang";
+                else if (event.level == 2) level = "Sangat Penting";
+                levelDetail.innerHTML = level;
+            }
+
+        // }
+
+        // fungsi untuk menghilangkan modal ketika tombol close di klik
+        const close = document.querySelector(".close-modal");
+        close.addEventListener("click", () => {
+            const detail = document.querySelector(".modalDetail");
+            detail.style.display = "none";
+        });
+
+        // fungsi untuk menghapus kegiatan ketika tombol delete di klik
+        const deleteBtn = document.querySelector(".btn-delete-event");
+
+        deleteBtn.addEventListener("click", (e) => {
+            const id = document.querySelector(".id-detail").value;
+            if (confirm("Yakin ingin menghapus kegiatan ini?")) {
+                $.ajax({
+                    url: "php/deleteData.php",
+                    type: "POST",
+                    data: "id=" + id,
+                    success: function (data) {
+                        alert(data);
+                        getAllData();
+                    }
+                });
+            }
+            window.location.reload();
+        });
+
+        // eventsContainer.addEventListener("click", (e) => {
+        // if (e.target.classList.contains("event")) {
+        //     if (confirm("Yakin ingin menghapus kegiatan ini?")) {
+        //         // mengambil id dari event yang di klik
+        //         const eventId = e.target.children[0].value;
+
+        //         // delete event from database and update eventsArr
+        //         $.ajax({
+        //             url: "php/deleteData.php",
+        //             type: "POST",
+        //             data: "id=" + eventId,
+        //             success: function (data) {
+        //                 alert(data);
+        //                 getAllData();
+        //             }
+        //         })
+        //     }
+        //     window.location.reload();
+        //     updateEvents(activeDay);
+        // }
+        // });
 
         function convertTime(time) {
             //convert time to 24 hour format
