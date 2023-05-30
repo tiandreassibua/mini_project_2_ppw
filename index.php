@@ -113,7 +113,7 @@
             eventDay = document.querySelector(".event-day"),
             eventDate = document.querySelector(".event-date"),
             eventsContainer = document.querySelector(".events"),
-            addEventBtn = document.querySelector(".add-event"),
+            addEventBtn = document.querySelector(".add-event"), 
             addEventWrapper = document.querySelector(".add-event-wrapper "),
             addEventCloseBtn = document.querySelector(".close "),
             addEventTitle = document.querySelector(".event-name "),
