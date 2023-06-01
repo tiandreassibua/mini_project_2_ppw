@@ -11,8 +11,11 @@ $time = $_POST['time'];
 $location = $_POST['location'];
 $description = $_POST['description'];
 $level = $_POST['level'];
+$startTime = $_POST['startTime'];
+$endTime = $_POST['endTime'];
+$duration = $_POST['duration'];
 
-$sql = "INSERT INTO events (day, month, year, title, location, description, level, time) VALUES ('$day', '$month', '$year', '$title', '$location', '$description', '$level', '$time')";
+$sql = "INSERT INTO events_dev (day, month, year, title, location, description, level, start_time, end_time, duration, time) VALUES ('$day', '$month', '$year', '$title', '$location', '$description', '$level', '$startTime', '$endTime', '$duration', '$time')";
 $results = $db->query($sql);
 
 
