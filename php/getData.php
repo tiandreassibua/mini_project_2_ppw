@@ -4,7 +4,7 @@ header('Content-Type: application/json');
 include "./config.php";
 
 // Get the data from the database.
-$sql = "SELECT * FROM events_dev WHERE id = " . $_GET['id'];
+$sql = "SELECT * FROM events WHERE id = " . $_GET['id'];
 $results = $db->query($sql);
 
 // Convert the results to an array.

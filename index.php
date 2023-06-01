@@ -557,9 +557,6 @@
                 var time = `${namaHari[timeFrom.getDay()]}, ${timeFrom.getDate()} ${namaBulan[timeFrom.getMonth()]} ${timeFrom.getHours()}:${timeFrom.getMinutes()} - ${namaHari[timeTo.getDay()]}, ${timeTo.getDate()} ${namaBulan[timeTo.getMonth()]} ${timeTo.getHours()}:${timeTo.getMinutes()}`;
 
                 durationDetail.setAttribute("title", time);
-                
-                console.log(event);
-                
                 durationDetail.innerHTML = event.duration;
                 idDetail.value = event.id;
 
