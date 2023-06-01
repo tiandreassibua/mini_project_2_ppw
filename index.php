@@ -109,8 +109,8 @@
                             <input type="text" placeholder="Lokasi" class="event-location" />
                         </div>
                         <div class="add-event-input">
-                            <input type="text" placeholder="Waktu mulai" class="event-time-from" />
-                            <input type="text" placeholder="Waktu selesai " class="event-time-to" />
+                            <input type="datetime-local" placeholder="Waktu mulai" class="event-time-from" />
+                            <input type="datetime-local" placeholder="Waktu selesai " class="event-time-to" />
                         </div>
                         <div class="add-event-input">
                             <select class="event-level">
@@ -455,25 +455,25 @@
         });
 
         //allow only time in eventtime from and to
-        addEventFrom.addEventListener("input", (e) => {
-            addEventFrom.value = addEventFrom.value.replace(/[^0-9:]/g, "");
-            if (addEventFrom.value.length == 2) {
-                addEventFrom.value += ":";
-            }
-            if (addEventFrom.value.length > 5) {
-                addEventFrom.value = addEventFrom.value.slice(0, 5);
-            }
-        });
+        // addEventFrom.addEventListener("input", (e) => {
+        //     addEventFrom.value = addEventFrom.value.replace(/[^0-9:]/g, "");
+        //     if (addEventFrom.value.length == 2) {
+        //         addEventFrom.value += ":";
+        //     }
+        //     if (addEventFrom.value.length > 5) {
+        //         addEventFrom.value = addEventFrom.value.slice(0, 5);
+        //     }
+        // });
 
-        addEventTo.addEventListener("input", (e) => {
-            addEventTo.value = addEventTo.value.replace(/[^0-9:]/g, "");
-            if (addEventTo.value.length == 2) {
-                addEventTo.value += ":";
-            }
-            if (addEventTo.value.length > 5) {
-                addEventTo.value = addEventTo.value.slice(0, 5);
-            }
-        });
+        // addEventTo.addEventListener("input", (e) => {
+        //     addEventTo.value = addEventTo.value.replace(/[^0-9:]/g, "");
+        //     if (addEventTo.value.length == 2) {
+        //         addEventTo.value += ":";
+        //     }
+        //     if (addEventTo.value.length > 5) {
+        //         addEventTo.value = addEventTo.value.slice(0, 5);
+        //     }
+        // });
 
         //function to add event to eventsArr
         addEventSubmit.addEventListener("click", () => {
@@ -489,38 +489,45 @@
             }
 
             //check correct time format 24 hour
-            const timeFromArr = eventTimeFrom.split(":");
-            const timeToArr = eventTimeTo.split(":");
-            if (
-                timeFromArr.length !== 2 ||
-                timeToArr.length !== 2 ||
-                timeFromArr[0] > 23 ||
-                timeFromArr[1] > 59 ||
-                timeToArr[0] > 23 ||
-                timeToArr[1] > 59
-            ) {
-                alert("Invalid Time Format");
-                return;
-            }
+            // const timeFromArr = eventTimeFrom.split(":");
+            // const timeToArr = eventTimeTo.split(":");
+            // if (
+            //     timeFromArr.length !== 2 ||
+            //     timeToArr.length !== 2 ||
+            //     timeFromArr[0] > 23 ||
+            //     timeFromArr[1] > 59 ||
+            //     timeToArr[0] > 23 ||
+            //     timeToArr[1] > 59
+            // ) {
+            //     alert("Invalid Time Format");
+            //     return;
+            // }
 
-            const timeFrom = convertTime(eventTimeFrom);
-            const timeTo = convertTime(eventTimeTo);
+            // 2023-05-31T08:29
+            
+            const timeFrom = new Date(eventTimeFrom);
+            const timeTo = new Date(eventTimeTo);
+            const dateTimeFrom = eventTimeFrom;
+            const dateTimeTo = eventTimeTo;
+            var waktu = `${timeFrom.getDay()} ${namaBulan[timeFrom.getMonth()]} ${timeFrom.getTime()}`;
 
-            $.ajax({
-                url: "php/addData.php",
-                type: "POST",
-                data: "title=" + eventTitle + "&time=" + timeFrom + " - " + timeTo + "&day=" + activeDay + "&month=" + (month + 1) + "&year=" + year + "&location=" + eventLocation + "&description=" + eventDescription + "&level=" + eventLevel,
-                success: function (data) {
-                    alert(data);
-                    getAllData();
-                    updateEvents(activeDay);
-                },
-                error: function (data) {
-                    alert(data.responseText)
-                },
-            });
+            console.log(waktu);
 
-            window.location.reload();
+            // $.ajax({
+            //     url: "php/addData.php",
+            //     type: "POST",
+            //     data: `title=${eventTitle}&time=${time}&day=${activeDay}&month=${month + 1}&year=${year}&location=${eventLocation}&description=${eventDescription}&level=${eventLevel}&startTime=${dateTimeFrom}&endTime=${dateTimeTo}`,
+            //     success: function (data) {
+            //         alert(data);
+            //         getAllData();
+            //         updateEvents(activeDay);
+            //     },
+            //     error: function (data) {
+            //         alert(data.responseText)
+            //     },
+            // });
+
+            // window.location.reload();
 
             addEventWrapper.classList.remove("active");
             addEventTitle.value = "";
@@ -629,39 +636,6 @@
             }
             window.location.reload();
         });
-
-        // eventsContainer.addEventListener("click", (e) => {
-        // if (e.target.classList.contains("event")) {
-        //     if (confirm("Yakin ingin menghapus kegiatan ini?")) {
-        //         // mengambil id dari event yang di klik
-        //         const eventId = e.target.children[0].value;
-
-        //         // delete event from database and update eventsArr
-        //         $.ajax({
-        //             url: "php/deleteData.php",
-        //             type: "POST",
-        //             data: "id=" + eventId,
-        //             success: function (data) {
-        //                 alert(data);
-        //                 getAllData();
-        //             }
-        //         })
-        //     }
-        //     window.location.reload();
-        //     updateEvents(activeDay);
-        // }
-        // });
-
-        function convertTime(time) {
-            //convert time to 24 hour format
-            let timeArr = time.split(":");
-            let timeHour = timeArr[0];
-            let timeMin = timeArr[1];
-            let timeFormat = timeHour >= 12 ? "PM" : "AM";
-            timeHour = timeHour % 12 || 12;
-            time = timeHour + ":" + timeMin + " " + timeFormat;
-            return time;
-        }
     </script>
 </body>
 

@@ -4,7 +4,7 @@ header('Content-Type: application/json');
 include "./config.php";
 
 $id = $_POST['id'];
-$sql = "DELETE FROM events WHERE id = '$id'";
+$sql = "DELETE FROM events_dev WHERE id = '$id'";
 $results = $db->query($sql);
 
 $message = "Kegiatan berhasil dihapus!";
