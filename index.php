@@ -69,7 +69,7 @@
                         </p>
                         <p>
                             <span class="fa-solid fa-clock"></span>
-                            <span class="time-detail"></span>
+                            <span class="duration-detail"></span>
                         </p>
                         <p>
                             <span class="fa-solid fa-level-up"></span>
@@ -106,7 +106,7 @@
                             <input type="text" placeholder="Deskripsi" class="event-description" />
                         </div>
                         <div class="add-event-input">
-                            <input type="text" placeholder="Lokasi" class="event-location" />
+                            <input type="text" placeholder="Lokasi/link maps" class="event-location" />
                         </div>
                         <div class="add-event-input">
                             <input type="datetime-local" placeholder="Waktu mulai" class="event-time-from" />
@@ -420,11 +420,6 @@
                     });
                 }
             });
-            // <span class="event-time desc">${event.description}</span><br><br>
-            // <span class="event-time">
-            // <i class="fa-solid fa-location-pin"></i>
-            //     <b><span class="location">${event.location}</span> | ${event.time}</b>
-            // </span>
             if (events == "") {
                 events = `<div class="no-event">
             <h3>Tidak ada kegiatan</h3>
@@ -454,27 +449,6 @@
             addEventTitle.value = addEventTitle.value.slice(0, 60);
         });
 
-        //allow only time in eventtime from and to
-        // addEventFrom.addEventListener("input", (e) => {
-        //     addEventFrom.value = addEventFrom.value.replace(/[^0-9:]/g, "");
-        //     if (addEventFrom.value.length == 2) {
-        //         addEventFrom.value += ":";
-        //     }
-        //     if (addEventFrom.value.length > 5) {
-        //         addEventFrom.value = addEventFrom.value.slice(0, 5);
-        //     }
-        // });
-
-        // addEventTo.addEventListener("input", (e) => {
-        //     addEventTo.value = addEventTo.value.replace(/[^0-9:]/g, "");
-        //     if (addEventTo.value.length == 2) {
-        //         addEventTo.value += ":";
-        //     }
-        //     if (addEventTo.value.length > 5) {
-        //         addEventTo.value = addEventTo.value.slice(0, 5);
-        //     }
-        // });
-
         //function to add event to eventsArr
         addEventSubmit.addEventListener("click", () => {
             const eventTitle = addEventTitle.value;
@@ -483,49 +457,43 @@
             const eventLevel = addEventLevel.value;
             const eventTimeFrom = addEventFrom.value;
             const eventTimeTo = addEventTo.value;
+
             if (eventTitle == "" || eventTimeFrom == "" || eventTimeTo == "" || eventLocation == "" || eventDescription == "") {
-                alert("Please fill all the fields");
+                alert("Inputan tidak boleh kosong!");
                 return;
             }
 
-            //check correct time format 24 hour
-            // const timeFromArr = eventTimeFrom.split(":");
-            // const timeToArr = eventTimeTo.split(":");
-            // if (
-            //     timeFromArr.length !== 2 ||
-            //     timeToArr.length !== 2 ||
-            //     timeFromArr[0] > 23 ||
-            //     timeFromArr[1] > 59 ||
-            //     timeToArr[0] > 23 ||
-            //     timeToArr[1] > 59
-            // ) {
-            //     alert("Invalid Time Format");
-            //     return;
-            // }
-
-            // 2023-05-31T08:29
-            
             const timeFrom = new Date(eventTimeFrom);
             const timeTo = new Date(eventTimeTo);
-            const dateTimeFrom = eventTimeFrom;
-            const dateTimeTo = eventTimeTo;
-            var waktu = `${timeFrom.getDay()} ${namaBulan[timeFrom.getMonth()]} ${timeFrom.getTime()}`;
+            var time = `${timeFrom.getDate()} ${namaBulan[timeFrom.getMonth()]} - ${timeTo.getDate()} ${namaBulan[timeTo.getMonth()]}`;
 
-            console.log(waktu);
+            const millisecondDifference = timeTo.getTime() - timeFrom.getTime();
+            const hourDifference = millisecondDifference / (1000 * 60 * 60);
+            let duration = "";
 
-            // $.ajax({
-            //     url: "php/addData.php",
-            //     type: "POST",
-            //     data: `title=${eventTitle}&time=${time}&day=${activeDay}&month=${month + 1}&year=${year}&location=${eventLocation}&description=${eventDescription}&level=${eventLevel}&startTime=${dateTimeFrom}&endTime=${dateTimeTo}`,
-            //     success: function (data) {
-            //         alert(data);
-            //         getAllData();
-            //         updateEvents(activeDay);
-            //     },
-            //     error: function (data) {
-            //         alert(data.responseText)
-            //     },
-            // });
+            if (hourDifference < 24) {
+                duration = hourDifference.toFixed(0) + ' jam';
+            } else {
+                const dayDifference = millisecondDifference / (1000 * 60 * 60 * 24);
+                duration = dayDifference.toFixed(0) + ' hari ' + (hourDifference % 24).toFixed(0) + ' jam';
+            }
+
+            console.log(duration);
+            console.log(time);
+
+            $.ajax({
+                url: "php/addData.php",
+                type: "POST",
+                data: `title=${eventTitle}&time=${time}&duration=${duration}&day=${activeDay}&month=${month + 1}&year=${year}&location=${eventLocation}&description=${eventDescription}&level=${eventLevel}&startTime=${timeFrom}&endTime=${timeTo}`,
+                success: function (data) {
+                    alert(data);
+                    getAllData();
+                    updateEvents(activeDay);
+                },
+                error: function (data) {
+                    alert(data.responseText)
+                },
+            });
 
             // window.location.reload();
 
@@ -545,7 +513,6 @@
         });
 
         // fungsi untuk menghapus kegiatan ketika kegiatan di klik
-
         eventsContainer.addEventListener("click", (e) => {
             if (e.target.classList.contains("event")) {
                 const eventId = e.target.children[0].value;
@@ -567,12 +534,6 @@
 
             if (date.getDate() > event.day || date.getMonth() + 1 > event.month || date.getFullYear() > event.year) isExpired = true;
 
-            // if (isExpired) {
-            //     alert("Kegiatan ini sudah berakhir");
-            // } else {
-            //     console.log(false);
-            // }
-
             if (isExpired) {
                 alert("Kegiatan ini sudah berakhir");
                 return;
@@ -583,14 +544,23 @@
 
                 const titleDetail = document.querySelector(".title-detail");
                 const locationDetail = document.querySelector(".location-detail");
-                const timeDetail = document.querySelector(".time-detail");
+                const durationDetail = document.querySelector(".duration-detail");
                 const descriptionDetail = document.querySelector(".description-detail");
                 const levelDetail = document.querySelector(".level-detail");
                 const idDetail = document.querySelector(".id-detail");
 
                 titleDetail.innerHTML = event.title;
                 descriptionDetail.innerHTML = event.description;
-                timeDetail.innerHTML = event.time;
+
+                const timeFrom = new Date(event.start_time);
+                const timeTo = new Date(event.end_time);
+                var time = `${namaHari[timeFrom.getDay()]}, ${timeFrom.getDate()} ${namaBulan[timeFrom.getMonth()]} ${timeFrom.getHours()}:${timeFrom.getMinutes()} - ${namaHari[timeTo.getDay()]}, ${timeTo.getDate()} ${namaBulan[timeTo.getMonth()]} ${timeTo.getHours()}:${timeTo.getMinutes()}`;
+
+                durationDetail.setAttribute("title", time);
+                
+                console.log(event);
+                
+                durationDetail.innerHTML = event.duration;
                 idDetail.value = event.id;
 
                 // lakukan pengecekan apakah location berupa link atau bukan

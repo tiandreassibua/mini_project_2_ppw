@@ -18,7 +18,10 @@ foreach ($results as $row) {
         'time' => $row['time'],
         'location' => $row['location'],
         'description' => $row['description'],
+        'start_time' => $row['start_time'],
+        'end_time' => $row['end_time'],
         'level' => $row['level'],
+        'duration' => $row['duration'],
         'id' => $row['id']
     );
 }
