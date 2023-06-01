@@ -495,7 +495,7 @@
                 },
             });
 
-            // window.location.reload();
+            window.location.reload();
 
             addEventWrapper.classList.remove("active");
             addEventTitle.value = "";
