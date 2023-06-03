@@ -49,6 +49,31 @@ header {
   color: #fff;
 }
 
+header .user {
+  align-items: center;
+  display: flex;
+  gap: 20px;
+}
+
+.user button {
+  padding: 7px 10px;
+  color: #fff;
+  background-color: var(--primary-clr);
+  border: none;
+  border-radius: 5px;
+  text-transform: uppercase;
+}
+
+.user button:hover {
+  cursor: pointer;
+  background-color: #245953c4;
+}
+
+.name:hover {
+  color: #bdbdbd;
+  cursor: pointer;
+}
+
 footer {
   width: 100%;
   padding: 20px 50px;
@@ -371,7 +396,7 @@ h3.event-title.isExpired {
   color: #878895;
 }
 
-h3.event-title.isExpired ~ .expired {
+h3.event-title.isExpired~.expired {
   color: red;
 }
 
@@ -575,7 +600,7 @@ h3.event-title.isExpired ~ .expired {
   body {
     align-items: flex-start;
     justify-content: flex-start;
-  } 
+  }
 
   .container {
     min-height: 100vh;
@@ -625,10 +650,14 @@ h3.event-title.isExpired ~ .expired {
 }
 
 @media screen and (max-width: 500px) {
+  header {
+    font-size: 70%;
+  }
+  
   .calendar {
     border-radius: 0;
   }
-  
+
   .calendar .month {
     height: 75px;
   }
