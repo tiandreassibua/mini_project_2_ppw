@@ -1,3 +1,13 @@
+<?php
+
+session_start();
+if (!isset($_SESSION["isLogin"])) {
+    echo "<script>alert('Silahkan login terlebih dahulu!')</script>";
+    echo "<script>window.location.href = 'login.php'</script>";
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,8 +32,11 @@
 <body>
     <header>
         <h2>My Kalender</h2>
+        <div class="user">
+            <span class="name"><i class="fas fa-user"></i> <?= $_SESSION["nama"] ?></span>
+            <button onclick="logout()">Logout</button>
+        </div>
     </header>
-
     <div class="content-wrapper">
         <div class="container">
             <div class="left">
@@ -603,6 +616,11 @@
             }
             window.location.reload();
         });
+
+        function logout() {
+            alert("Yakin ingin logout?");
+            window.location.href = "php/logout.php";
+        }
     </script>
 </body>
 
