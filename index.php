@@ -81,7 +81,7 @@ if (!isset($_SESSION["isLogin"])) {
                             <span class="location-detail"></span>
                         </p>
                         <p>
-                            <span class="fa-solid fa-clock"></span>
+                            <span class="fa-solid fa-stopwatch"></span>
                             <span class="duration-detail"></span>
                         </p>
                         <p>
