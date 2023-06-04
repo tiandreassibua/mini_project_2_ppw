@@ -81,7 +81,7 @@ if (!isset($_SESSION["isLogin"])) {
                             <span class="location-detail"></span>
                         </p>
                         <p>
-                            <span class="fa-solid fa-clock"></span>
+                            <span class="fa-solid fa-stopwatch"></span>
                             <span class="duration-detail"></span>
                         </p>
                         <p>
@@ -413,8 +413,14 @@ if (!isset($_SESSION["isLogin"])) {
                         if (event.level == "1") level = "sedang";
                         else if (event.level == "2") level = "penting";
 
+                        const todayDate = new Date();
+                        const endTime = new Date(event.end_time);
+                        
+                        console.log(`Hari ini => ${todayDate}`);
+                        console.log(`end time => ${endTime}`);
+
                         let isExpired = false;
-                        if (today > new Date(year, month, date + 1)) {
+                        if (todayDate > endTime) {
                             isExpired = true;
                         }
 
@@ -497,7 +503,7 @@ if (!isset($_SESSION["isLogin"])) {
             $.ajax({
                 url: "php/addData.php",
                 type: "POST",
-                data: `title=${eventTitle}&time=${time}&duration=${duration}&day=${activeDay}&month=${month + 1}&year=${year}&location=${eventLocation}&description=${eventDescription}&level=${eventLevel}&startTime=${timeFrom}&endTime=${timeTo}`,
+                data: `title=${eventTitle}&time=${time}&duration=${duration}&day=${activeDay}&month=${month + 1}&year=${year}&location=${eventLocation}&description=${eventDescription}&level=${eventLevel}&startTime=${eventTimeFrom}&endTime=${eventTimeTo}`,
                 success: function (data) {
                     alert(data);
                     getAllData();
@@ -544,8 +550,9 @@ if (!isset($_SESSION["isLogin"])) {
         function showDetail(event) {
             let isExpired = false;
             const date = new Date();
+            const eventEndTime = new Date(event.end_time);
 
-            if (date.getDate() > event.day || date.getMonth() + 1 > event.month || date.getFullYear() > event.year) isExpired = true;
+            if (date > eventEndTime) isExpired = true;
 
             if (isExpired) {
                 alert("Kegiatan ini sudah berakhir");

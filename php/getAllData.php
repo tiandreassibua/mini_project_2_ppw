@@ -33,7 +33,9 @@ for ($i=0; $i < count($events); $i++) {
             'location' => $row['location'],
             'time' => $row['time'],
             'level' => $row['level'],
-            'duration' => $row['duration']
+            'duration' => $row['duration'],
+            'start_time' => $row['start_time'],
+            'end_time' => $row['end_time']
         );
     }
 }

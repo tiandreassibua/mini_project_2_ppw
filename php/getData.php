@@ -2,9 +2,13 @@
 
 header('Content-Type: application/json');
 include "./config.php";
+session_start();
+
+$userId = $_SESSION["id_user"];
 
 // Get the data from the database.
-$sql = "SELECT * FROM events_dev WHERE id = " . $_GET['id'];
+$id = $_GET["id"];
+$sql = "SELECT * FROM events_dev WHERE id = '$id' AND id_user = '$userId'";
 $results = $db->query($sql);
 
 // Convert the results to an array.

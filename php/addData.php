@@ -2,6 +2,9 @@
 
 header('Content-Type: application/json');
 include "./config.php";
+session_start();
+
+$userId = $_SESSION["id_user"];
 
 $day = $_POST['day'];
 $month = $_POST['month'];
@@ -15,7 +18,7 @@ $startTime = $_POST['startTime'];
 $endTime = $_POST['endTime'];
 $duration = $_POST['duration'];
 
-$sql = "INSERT INTO events_dev (day, month, year, title, location, description, level, start_time, end_time, duration, time) VALUES ('$day', '$month', '$year', '$title', '$location', '$description', '$level', '$startTime', '$endTime', '$duration', '$time')";
+$sql = "INSERT INTO events_dev (day, month, year, title, location, description, level, start_time, end_time, duration, time, id_user) VALUES ('$day', '$month', '$year', '$title', '$location', '$description', '$level', '$startTime', '$endTime', '$duration', '$time', '$userId')";
 $results = $db->query($sql);
 
 

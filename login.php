@@ -64,8 +64,10 @@ if (isset($_SESSION["isLogin"]))
                         data: `username=${uname.value}&password=${pwd.value}`,
                         success: function (response) {
                             alert(response.message);
-                            alert(`Selamat datang, ${response.user}`);
-                            if (response.status === 1) window.location.href = "index.php";
+                            if (response.status === 1) {
+                                alert(`Selamat datang, ${response.user}`);
+                                window.location.href = "index.php"
+                            }
                         },
                         error: function (response) {
                             console.log(response.responseText);
