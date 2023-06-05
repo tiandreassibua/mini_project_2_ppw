@@ -186,7 +186,7 @@ if (!isset($_SESSION["isLogin"])) {
             "Mei",
             "Juni",
             "Juli",
-            "Augustus",
+            "Agustus",
             "September",
             "Oktober",
             "November",
