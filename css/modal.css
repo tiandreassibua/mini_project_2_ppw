@@ -1,6 +1,7 @@
 :root {
     --primary-color: #8B7E74;
     --danger-color: #ab5151;
+    --info-color: #5177ab;
     --bg-primary-color: #434242;
     --bg-secondary-color: #242429;
     /* --primary-color: #e85900;
@@ -99,12 +100,21 @@
     padding: 5px 10px;
     border-radius: 5px;
     border: none;
-    background-color: var(--danger-color);
     color: #ffffff;
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
 }
+
+.btn-delete-event {
+    background-color: var(--danger-color) !important;
+}
+
+.btn-edit-event {
+    background-color: var(--info-color) !important;
+}
+
+
 
 @media screen and (max-width: 1400px) {
     .modal-content {

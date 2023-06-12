@@ -90,7 +90,8 @@ if (!isset($_SESSION["isLogin"])) {
                         </p>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn-delete-event">Hapus</button>
+                        <button class="btn-delete-event"><i class="fa-solid fa-trash"></i> Hapus</button>
+                        <button class="btn-edit-event"><i class="fa-solid fa-edit"></i> Edit</button>
                         <input type="hidden" class="id-detail">
                     </div>
                 </div>
@@ -622,6 +623,13 @@ if (!isset($_SESSION["isLogin"])) {
                 });
             }
             window.location.reload();
+        });
+
+        const editBtn = document.querySelector(".btn-edit-event");
+        // redirect on click edit button
+        editBtn.addEventListener("click", (e) => {
+            const id = document.querySelector(".id-detail").value;
+            window.location.href = `php/edit.php?id=${id}`;
         });
 
         function logout() {
