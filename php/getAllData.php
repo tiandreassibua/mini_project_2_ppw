@@ -8,7 +8,7 @@ session_start();
 $userId = $_SESSION["id_user"];
 
 // Get the data from the database.
-$sql = "SELECT DISTINCT day, month, year FROM events_dev WHERE id_user = '$userId'";
+$sql = "SELECT DISTINCT day, month, year FROM events WHERE id_user = '$userId'";
 $results = $db->query($sql);
 
 // Convert the results to an array.
@@ -23,7 +23,7 @@ foreach ($results as $row) {
 }
 
 for ($i=0; $i < count($events); $i++) { 
-    $sql = 'SELECT * FROM events_dev WHERE day = ' . $events[$i]['day'] . ' AND month = ' . $events[$i]['month'] . ' AND year = ' . $events[$i]['year']. ' AND id_user = '. $userId .'  ORDER BY level DESC';
+    $sql = 'SELECT * FROM events WHERE day = ' . $events[$i]['day'] . ' AND month = ' . $events[$i]['month'] . ' AND year = ' . $events[$i]['year']. ' AND id_user = '. $userId .'  ORDER BY level DESC';
     $results = $db->query($sql);
     foreach ($results as $row) {
         $events[$i]['events'][] = array(

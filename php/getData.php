@@ -8,7 +8,7 @@ $userId = $_SESSION["id_user"];
 
 // Get the data from the database.
 $id = $_GET["id"];
-$sql = "SELECT * FROM events_dev WHERE id = '$id' AND id_user = '$userId'";
+$sql = "SELECT * FROM events WHERE id = '$id' AND id_user = '$userId'";
 $results = $db->query($sql);
 
 // Convert the results to an array.
@@ -30,8 +30,5 @@ foreach ($results as $row) {
     );
 }
 
-// Convert the array to JSON.
 $json_data = json_encode($events);
-
-// echo the JSON data.
 echo $json_data;
