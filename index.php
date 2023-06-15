@@ -501,7 +501,7 @@ if (!isset($_SESSION["isLogin"])) {
                 title: eventTitle,
                 time: time,
                 duration: duration,
-                day: activeDay,
+                day: timeFrom.getDate(),
                 month: month + 1,
                 year: year,
                 location: eventLocation,
