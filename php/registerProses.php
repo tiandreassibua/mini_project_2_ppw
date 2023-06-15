@@ -1,11 +1,12 @@
 <?php
 
-header('Content-Type: application/json');
 include "./config.php";
 
-$fname = $_POST["fullname"];
-$uname = $_POST["username"];
-$pwd = $_POST["password"];
+$data = json_decode(file_get_contents("php://input"), true);
+
+$fname = $data["fullname"];
+$uname = $data["username"];
+$pwd = $data["password"];
 
 $pwd = md5($pwd);
 $msg = array();
