@@ -18,15 +18,11 @@ if (!isset($_SESSION["isLogin"])) {
     <title>My Kalender</title>
     <!-- icon rel -->
     <link rel="icon" href="https://www.iconarchive.com/download/i103365/paomedia/small-n-flat/calendar.1024.png" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,500;0,600;0,700;0,800;0,900;1,400&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="./css/modal.css">
     <link rel="stylesheet" href="./css/style.css" />
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script> -->
 </head>
 
 <body>
@@ -209,17 +205,18 @@ if (!isset($_SESSION["isLogin"])) {
 
         // function to get all event data from database
         function getAllData() {
-            $.ajax({
-                url: "./php/getAllData.php",
-                type: "GET",
-                dataType: "JSON",
-                success: function (data) {
+            fetch('./php/getAllData.php', {
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
                     for (let i = 0; i < data.length; i++) {
                         eventsArr.push(data[i]);
                     }
                     initCalendar();
-                },
-            });
+                });
         }
 
         //function to add days in days with class day and prev-date next-date on previous month and next month days and active on today
@@ -416,9 +413,6 @@ if (!isset($_SESSION["isLogin"])) {
 
                         const todayDate = new Date();
                         const endTime = new Date(event.end_time);
-                        
-                        console.log(`Hari ini => ${todayDate}`);
-                        console.log(`end time => ${endTime}`);
 
                         let isExpired = false;
                         if (todayDate > endTime) {
@@ -470,7 +464,7 @@ if (!isset($_SESSION["isLogin"])) {
         });
 
         //function to add event to eventsArr
-        addEventSubmit.addEventListener("click", () => {
+        addEventSubmit.addEventListener("click", async () => {
             const eventTitle = addEventTitle.value;
             const eventLocation = addEventLocation.value;
             const eventDescription = addEventDescription.value;
@@ -480,6 +474,11 @@ if (!isset($_SESSION["isLogin"])) {
 
             if (eventTitle == "" || eventTimeFrom == "" || eventTimeTo == "" || eventLocation == "" || eventDescription == "") {
                 alert("Inputan tidak boleh kosong!");
+                return;
+            }
+
+            if (new Date(eventTimeFrom) >= new Date(eventTimeTo)) {
+                alert("Waktu mulai tidak boleh lebih besar atau sama dengan tanggal selesai!")
                 return;
             }
 
@@ -498,24 +497,33 @@ if (!isset($_SESSION["isLogin"])) {
                 duration = dayDifference.toFixed(0) + ' hari ' + (hourDifference % 24).toFixed(0) + ' jam';
             }
 
-            console.log(duration);
-            console.log(time);
+            var data = {
+                title: eventTitle,
+                time: time,
+                duration: duration,
+                day: activeDay,
+                month: month + 1,
+                year: year,
+                location: eventLocation,
+                description: eventDescription,
+                level: eventLevel,
+                startTime: eventTimeFrom,
+                endTime: eventTimeTo
+            }
+            var xhr = new XMLHttpRequest();
 
-            $.ajax({
-                url: "php/addData.php",
-                type: "POST",
-                data: `title=${eventTitle}&time=${time}&duration=${duration}&day=${activeDay}&month=${month + 1}&year=${year}&location=${eventLocation}&description=${eventDescription}&level=${eventLevel}&startTime=${eventTimeFrom}&endTime=${eventTimeTo}`,
-                success: function (data) {
-                    alert(data);
-                    getAllData();
-                    updateEvents(activeDay);
-                },
-                error: function (data) {
-                    alert(data.responseText)
-                },
-            });
+            xhr.open("POST", "./php/addData.php", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
 
-            window.location.reload();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == XMLHttpRequest.DONE) {
+                    alert(xhr.responseText);
+                    window.location.reload();
+                }
+            };
+
+            xhr.send(JSON.stringify(data));
+
 
             addEventWrapper.classList.remove("active");
             addEventTitle.value = "";
@@ -536,15 +544,20 @@ if (!isset($_SESSION["isLogin"])) {
         eventsContainer.addEventListener("click", (e) => {
             if (e.target.classList.contains("event")) {
                 const eventId = e.target.children[0].value;
-                // let singeEvent = []
-                $.ajax({
-                    url: "php/getData.php",
-                    type: "GET",
-                    data: "id=" + eventId,
-                    success: function (response) {
-                        showDetail(response[0]);
-                    }
-                });
+                fetch(`php/getData.php?id=${eventId}`)
+                    .then(function(response) {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error('Error: ' + response.status);
+                        }
+                    })
+                    .then(function(data) {
+                        showDetail(data[0]);
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
             }
         });
 
@@ -558,8 +571,7 @@ if (!isset($_SESSION["isLogin"])) {
             if (isExpired) {
                 alert("Kegiatan ini sudah berakhir");
                 return;
-            }
-            else {
+            } else {
                 const detail = document.querySelector(".modalDetail");
                 detail.style.display = "block";
 
@@ -612,17 +624,21 @@ if (!isset($_SESSION["isLogin"])) {
         deleteBtn.addEventListener("click", (e) => {
             const id = document.querySelector(".id-detail").value;
             if (confirm("Yakin ingin menghapus kegiatan ini?")) {
-                $.ajax({
-                    url: "php/deleteData.php",
-                    type: "POST",
-                    data: "id=" + id,
-                    success: function (data) {
-                        alert(data);
-                        getAllData();
+                var data = { id: id }
+                var xhr = new XMLHttpRequest();
+
+                xhr.open("POST", "./php/deleteData.php", true);
+                xhr.setRequestHeader("Content-Type", "application/json");
+
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState == XMLHttpRequest.DONE) {
+                        alert(xhr.responseText);
+                        window.location.reload();
                     }
-                });
+                };
+
+                xhr.send(JSON.stringify(data));
             }
-            window.location.reload();
         });
 
         const editBtn = document.querySelector(".btn-edit-event");
