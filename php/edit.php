@@ -27,6 +27,13 @@ if ($row["id_user"] !== $_SESSION["id_user"]) {
 </head>
 
 <body>
+    <header>
+        <h2>My Kalender</h2>
+        <div class="user">
+            <span class="name"><i class="fas fa-user"></i> <?= $_SESSION["nama"] ?></span>
+            <button onclick="logout()">Logout</button>
+        </div>
+    </header>
     <div class="container">
         <h2>Update Kegiatan</h2>
         <form>
@@ -34,7 +41,8 @@ if ($row["id_user"] !== $_SESSION["id_user"]) {
             <label for="">Judul</label>
             <input type="text" placeholder="Title" id="title" value="<?= $row["title"] ?>" />
             <label for="">Deskripsi</label>
-            <input type="text" placeholder="Description" id="description" value="<?= $row["description"] ?>" />
+            <!-- <input type="text" placeholder="Description" id="description" value="<?= $row["description"] ?>" /> -->
+            <textarea id="description" placeholder="Description"><?= $row["description"] ?></textarea>
             <label for="">Lokasi</label>
             <input type="text" placeholder="Lokasi/link maps" id="location" value="<?= $row["location"] ?>" />
             <label for="">Waktu Mulai</label>
@@ -48,8 +56,14 @@ if ($row["id_user"] !== $_SESSION["id_user"]) {
                 <option value="2" <?php if ($row["level"] == "2") echo "selected" ?>>Sangat Penting</option>
             </select>
         </form>
-        <button id="submit">Update</button>
+        <div class="buttons">
+            <a href="../">Kembali</a>
+            <button id="submit">Update</button>
+        </div>
     </div>
+    <footer>
+        <p>We made with ❤️</p>
+    </footer>
 
     <script>
         const namaBulan = [

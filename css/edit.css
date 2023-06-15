@@ -4,7 +4,7 @@
     --primary-clr: #245953;
     --bg-primary-clr: #3c3c3c;
     --bg-secondary-clr: #2c2c2c;
-  }
+}
 
 * {
     margin: 0;
@@ -16,14 +16,62 @@
 
 body {
     height: 100vh;
+    display: grid;
+    background-color: var(--bg-primary-clr);
+}
+
+header {
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--bg-secondary-clr);
+    z-index: 100;
+    color: #fff;
+}
+
+header .user {
+    align-items: center;
+    display: flex;
+    gap: 20px;
+}
+
+.user button {
+    padding: 7px 10px;
+    color: #fff;
+    background-color: var(--primary-clr);
+    border: none;
+    border-radius: 5px;
+    text-transform: uppercase;
+}
+
+.user button:hover {
+    cursor: pointer;
+    background-color: #245953c4;
+}
+
+.name:hover {
+    color: #bdbdbd;
+    cursor: pointer;
+}
+
+footer {
+    width: 100%;
+    padding: 20px 50px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--bg-primary-clr);
+    background-color: var(--bg-secondary-clr);
+    z-index: 100;
+    color: #fff;
 }
 
 .container {
     max-width: 400px;
+    margin: 50px auto;
     width: 100%;
 }
 
@@ -37,7 +85,9 @@ form {
     margin-top: 20px;
 }
 
-.container form input, select {
+.container form input,
+select,
+textarea {
     width: 100%;
     margin-top: 5px;
     margin-bottom: 15px;
@@ -47,7 +97,14 @@ form {
     color: var(--primary-clr);
 }
 
-.container button {
+.buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.container>.buttons>button,
+a {
+    text-decoration: none;
     width: 100%;
     padding: 10px;
     border: none;
@@ -58,11 +115,23 @@ form {
     font-size: 20px;
     text-transform: uppercase;
     font-weight: 600;
+    text-align: center !important;
 }
 
-.container button:hover {
+.container>.buttons>a {
+    background-color: #244359;
+}
+
+.container>.buttons>button:hover {
     cursor: pointer;
     background-color: #245953c4;
+    text-align: center !important;
+}
+
+.container>.buttons>a:hover {
+    cursor: pointer;
+    background-color: #244359c4;
+    text-align: center !important;
 }
 
 .container p {
@@ -76,7 +145,7 @@ form {
     color: #3e9e95;
 }
 
-.container p a:hover  {
+.container p a:hover {
     color: #327c75;
     text-decoration: underline;
 }
@@ -88,11 +157,6 @@ label {
 @media screen and (max-width: 500px) {
     body {
         align-items: flex-start;
-    }
-
-    .container {
-        margin-top: 30%;
-        padding: 10px;
     }
 }
 
@@ -106,4 +170,23 @@ label {
     margin-bottom: 20px;
     color: red;
     list-style: none;
+}
+
+@media screen and (max-width: 1000px) {
+    body {
+        align-items: flex-start;
+        justify-content: flex-start;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    header {
+        padding: 20px;
+        font-size: 70%;
+    }
+
+    .container {
+        margin: 50px auto;
+        padding: 0 20px;
+    }
 }
