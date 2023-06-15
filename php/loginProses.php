@@ -1,10 +1,12 @@
 <?php
 
-header('Content-Type: application/json');
+// header('Content-Type: application/json');
 include "config.php";
 
-$uname = $_POST["username"];
-$pwd_hash = md5($_POST["password"]);
+$data = json_decode(file_get_contents("php://input"), true);
+
+$uname = $data["username"];
+$pwd_hash = md5($data["password"]);
 
 $sql = "SELECT * FROM users WHERE username = '$uname' AND password = '$pwd_hash'";
 $result = $conn->query($sql);
