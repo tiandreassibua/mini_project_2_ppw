@@ -58,6 +58,10 @@ header .user {
     cursor: pointer;
 }
 
+sup {
+    color: red;
+}
+
 footer {
     width: 100%;
     padding: 20px 50px;
@@ -172,12 +176,12 @@ label {
     list-style: none;
 }
 
-@media screen and (max-width: 1000px) {
+/* @media screen and (max-width: 1000px) {
     body {
         align-items: flex-start;
         justify-content: flex-start;
     }
-}
+} */
 
 @media screen and (max-width: 500px) {
     header {

@@ -27,11 +27,16 @@
 
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto;
+    margin: 25px auto;
     width: 50%;
     border-radius: 5px;
     overflow: hidden;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.3);
+}
+
+.image-detail img {
+    width: 50%;
+    border-radius: 10px;
 }
 
 /* modal header component */
@@ -119,7 +124,7 @@
 @media screen and (max-width: 1400px) {
     .modal-content {
         background-color: #fefefe;
-        margin: 20% auto;
+        margin: 5% auto;
         width: 70%;
     }
 }
@@ -127,14 +132,22 @@
 @media screen and (max-width: 1000px) {
     .modal-content {
         background-color: #fefefe;
-        margin: 20% auto;
+        margin: 5% auto;
         width: 80%;
+    }
+
+    .image-detail img {
+        width: 75%;
     }
 }
 
 @media screen and (max-width: 500px) {
     .modal-content {
-        margin: 30% auto;
+        margin: 20% auto;
         width: 90%;
+    }
+
+    .image-detail img {
+        width: 100%;
     }
 }

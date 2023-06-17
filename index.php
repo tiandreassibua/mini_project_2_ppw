@@ -70,6 +70,8 @@ if (!isset($_SESSION["isLogin"])) {
                         <i class="fas fa-times close-modal"></i>
                     </div>
                     <div class="modal-body">
+                        <div class="image-detail"></div>
+
                         <b class="title-detail"></b>
                         <p class="description-detail"></p><br>
                         <p>
@@ -119,6 +121,12 @@ if (!isset($_SESSION["isLogin"])) {
                             <input type="text" placeholder="Lokasi/link maps" class="event-location" />
                         </div>
                         <div class="add-event-input">
+                            <label for="event-image" class="image-button">
+                                <i class="fas fa-image"></i> Upload gambar kegiatan
+                            </label>
+                            <input type="file" class="event-image" id="event-image" />
+                        </div>
+                        <div class="add-event-input">
                             <input type="datetime-local" placeholder="Waktu mulai" class="event-time-from" />
                             <input type="datetime-local" placeholder="Waktu selesai " class="event-time-to" />
                         </div>
@@ -163,6 +171,7 @@ if (!isset($_SESSION["isLogin"])) {
             addEventWrapper = document.querySelector(".add-event-wrapper "),
             addEventCloseBtn = document.querySelector(".close "),
             addEventTitle = document.querySelector(".event-name "),
+            addEventImage = document.querySelector(".event-image "),
             addEventFrom = document.querySelector(".event-time-from "),
             addEventTo = document.querySelector(".event-time-to "),
             addEventLocation = document.querySelector(".event-location"),
@@ -497,23 +506,37 @@ if (!isset($_SESSION["isLogin"])) {
                 duration = dayDifference.toFixed(0) + ' hari ' + (hourDifference % 24).toFixed(0) + ' jam';
             }
 
-            var data = {
-                title: eventTitle,
-                time: time,
-                duration: duration,
-                day: timeFrom.getDate(),
-                month: month + 1,
-                year: year,
-                location: eventLocation,
-                description: eventDescription,
-                level: eventLevel,
-                startTime: eventTimeFrom,
-                endTime: eventTimeTo
+            const formData = new FormData();
+            if (addEventImage.files[0] != undefined) {
+                // buat validasi ekstensi file yang diupload
+                const fileExtension = addEventImage.files[0].name.split('.').pop().toLowerCase();
+                const allowedExtensions = ['jpg', 'jpeg', 'png'];
+                const fileSize = addEventImage.files[0].size / 1024 / 1024;
+                if (fileSize > 2) {
+                    alert('Ukuran file tidak boleh lebih dari 2 MB');
+                    return;
+                } else if (!allowedExtensions.includes(fileExtension)) {
+                    alert('Ekstensi file yang diupload harus berupa jpg, jpeg, atau png');
+                    return;
+                }
+                formData.append("image", addEventImage.files[0]);
             }
+            
+            formData.append("title", eventTitle);
+            formData.append("time", time);
+            formData.append("duration", duration);
+            formData.append("day", timeFrom.getDate());
+            formData.append("month", month + 1);
+            formData.append("year", year);
+            formData.append("location", eventLocation);
+            formData.append("description", eventDescription);
+            formData.append("level", eventLevel);
+            formData.append("startTime", eventTimeFrom);
+            formData.append("endTime", eventTimeTo);
+
             var xhr = new XMLHttpRequest();
 
             xhr.open("POST", "./php/addData.php", true);
-            xhr.setRequestHeader("Content-Type", "application/json");
 
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == XMLHttpRequest.DONE) {
@@ -522,8 +545,7 @@ if (!isset($_SESSION["isLogin"])) {
                 }
             };
 
-            xhr.send(JSON.stringify(data));
-
+            xhr.send(formData);
 
             addEventWrapper.classList.remove("active");
             addEventTitle.value = "";
@@ -574,7 +596,8 @@ if (!isset($_SESSION["isLogin"])) {
             } else {
                 const detail = document.querySelector(".modalDetail");
                 detail.style.display = "block";
-
+                
+                const imageDetail = document.querySelector(".image-detail");
                 const titleDetail = document.querySelector(".title-detail");
                 const locationDetail = document.querySelector(".location-detail");
                 const durationDetail = document.querySelector(".duration-detail");
@@ -603,6 +626,10 @@ if (!isset($_SESSION["isLogin"])) {
 
 
                 locationDetail.innerHTML = location;
+
+                if(event.image.length != 0) {
+                    imageDetail.innerHTML = `<img src="images/${event.image}" alt="event image">`;
+                }
 
                 let level = "Biasa";
                 if (event.level == 1) level = "Sedang";
