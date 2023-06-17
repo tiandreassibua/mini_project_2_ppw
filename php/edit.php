@@ -3,7 +3,7 @@
 include "config.php";
 session_start();
 
-$query = "SELECT * FROM `events` WHERE `id` = '" . $_GET['id'] . "'";
+$query = "SELECT * FROM `events_dev` WHERE `id` = '" . $_GET['id'] . "'";
 $result = mysqli_query($conn, $query);
 $row = mysqli_fetch_assoc($result);
 
@@ -36,25 +36,28 @@ if ($row["id_user"] !== $_SESSION["id_user"]) {
     </header>
     <div class="container">
         <h2>Update Kegiatan</h2>
-        <form>
+        <form enctype="multipart/form-data">
             <ul class="error"></ul>
-            <label for="">Judul</label>
+            <label for="">Judul <sup>*</sup></label>
             <input type="text" placeholder="Title" id="title" value="<?= $row["title"] ?>" />
-            <label for="">Deskripsi</label>
-            <!-- <input type="text" placeholder="Description" id="description" value="<?= $row["description"] ?>" /> -->
+            <label for="">Deskripsi <sup>*</sup></label>
             <textarea id="description" placeholder="Description"><?= $row["description"] ?></textarea>
-            <label for="">Lokasi</label>
+            <label for="">Lokasi <sup>*</sup></label>
             <input type="text" placeholder="Lokasi/link maps" id="location" value="<?= $row["location"] ?>" />
-            <label for="">Waktu Mulai</label>
-            <input type="datetime-local" value="<?= $formattedStartTime ?>" id="startTime" />
-            <label for="">Waktu Selesai</label>
-            <input type="datetime-local" value="<?= $formattedEndTime ?>" id="endTime" />
-            <label for="">Level kegiatan</label>
+            <label for="">Gambar Kegiatan</label>
+            <input type="file" id="image" />
+            <label for="">Waktu Mulai <sup>*</sup></label>
+            <input type="datetime-local" id="startTime" />
+            <label for="">Waktu Selesai <sup>*</sup></label>
+            <input type="datetime-local" id="endTime" />
+            <label for="">Level kegiatan <sup>*</sup></label>
             <select id="level">
                 <option value="0" <?php if ($row["level"] == "0") echo "selected" ?>>Biasa</option>
                 <option value="1" <?php if ($row["level"] == "1") echo "selected" ?>>Sedang</option>
                 <option value="2" <?php if ($row["level"] == "2") echo "selected" ?>>Sangat Penting</option>
             </select>
+            <p><sup>(*)</sup> wajib diisi!</p>
+            <br>
         </form>
         <div class="buttons">
             <a href="../">Kembali</a>
@@ -86,6 +89,8 @@ if ($row["id_user"] !== $_SESSION["id_user"]) {
             const id = <?= $_GET['id'] ?>;
             const startTime = document.querySelector("#startTime");
             const endTime = document.querySelector("#endTime");
+
+            const image = document.querySelector("#image");
 
             const day = new Date(startTime.value).getDate();
             const month = new Date(startTime.value).getMonth();
@@ -121,25 +126,39 @@ if ($row["id_user"] !== $_SESSION["id_user"]) {
                 return;
             }
 
-            var data = {
-                id: id,
-                title: title.value,
-                time: time,
-                duration: duration,
-                day: day,
-                month: month + 1,
-                year: year,
-                location: lokasi.value,
-                description: description.value,
-                level: level.value,
-                startTime: timeFrom,
-                endTime: timeTo
+            const formData = new FormData();
+
+            if (image.files[0] != undefined) {
+                // buat validasi ekstensi file yang diupload
+                const fileExtension = image.files[0].name.split('.').pop().toLowerCase();
+                const allowedExtensions = ['jpg', 'jpeg', 'png'];
+                const fileSize = image.files[0].size / 1024 / 1024;
+                if (fileSize > 2) {
+                    alert('Ukuran file tidak boleh lebih dari 2 MB');
+                    return;
+                } else if (!allowedExtensions.includes(fileExtension)) {
+                    alert('Ekstensi file yang diupload harus berupa jpg, jpeg, atau png');
+                    return;
+                }
+                formData.append("image", image.files[0]);
             }
+
+            formData.append("id", id);
+            formData.append("title", title.value);
+            formData.append("time", time);
+            formData.append("duration", duration);
+            formData.append("day", day);
+            formData.append("month", month + 1);
+            formData.append("year", year);
+            formData.append("location", lokasi.value);
+            formData.append("description", description.value);
+            formData.append("level", level.value);
+            formData.append("startTime", timeFrom);
+            formData.append("endTime", timeTo);
 
             var xhr = new XMLHttpRequest();
 
             xhr.open("POST", "update.php", true);
-            xhr.setRequestHeader("Content-Type", "application/json");
 
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == XMLHttpRequest.DONE) {
@@ -148,7 +167,7 @@ if ($row["id_user"] !== $_SESSION["id_user"]) {
                 }
             };
 
-            xhr.send(JSON.stringify(data));
+            xhr.send(formData);
         });
     </script>
 </body>

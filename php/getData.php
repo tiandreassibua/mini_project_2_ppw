@@ -8,7 +8,7 @@ $userId = $_SESSION["id_user"];
 
 // Get the data from the database.
 $id = $_GET["id"];
-$sql = "SELECT * FROM events WHERE id = '$id' AND id_user = '$userId'";
+$sql = "SELECT * FROM events_dev WHERE id = '$id' AND id_user = '$userId'";
 $results = $db->query($sql);
 
 // Convert the results to an array.
@@ -26,7 +26,8 @@ foreach ($results as $row) {
         'end_time' => $row['end_time'],
         'level' => $row['level'],
         'duration' => $row['duration'],
-        'id' => $row['id']
+        'id' => $row['id'],
+        'image' => $row['image']
     );
 }
 

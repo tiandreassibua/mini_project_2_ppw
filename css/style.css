@@ -491,7 +491,7 @@ h3.event-title.isExpired~.expired {
 }
 
 .add-event-wrapper.active {
-  max-height: 400px;
+  max-height: 440px;
 }
 
 .add-event-header {
@@ -566,6 +566,20 @@ h3.event-title.isExpired~.expired {
 
 .add-event-body .add-event-input input:focus::placeholder {
   color: var(--primary-clr);
+}
+
+.image-button {
+  color: #a5a5a5;
+  padding: 0 10px;
+  cursor: pointer;
+}
+
+.image-button:hover {
+  color: var(--primary-clr);
+}
+
+.event-image {
+  display: none;
 }
 
 .add-event-footer {
