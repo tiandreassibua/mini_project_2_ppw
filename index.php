@@ -122,7 +122,7 @@ if (!isset($_SESSION["isLogin"])) {
                         </div>
                         <div class="add-event-input">
                             <label for="event-image" class="image-button">
-                                <i class="fas fa-image"></i> Upload gambar kegiatan
+                                <i class="fa-solid fa-cloud-arrow-up"></i> Upload gambar kegiatan
                             </label>
                             <input type="file" class="event-image" id="event-image" />
                         </div>
@@ -416,7 +416,7 @@ if (!isset($_SESSION["isLogin"])) {
                 ) {
                     event.events.forEach((event) => {
                         let level = "0";
-
+                        
                         if (event.level == "1") level = "sedang";
                         else if (event.level == "2") level = "penting";
 
@@ -521,7 +521,7 @@ if (!isset($_SESSION["isLogin"])) {
                 }
                 formData.append("image", addEventImage.files[0]);
             }
-            
+
             formData.append("title", eventTitle);
             formData.append("time", time);
             formData.append("duration", duration);
@@ -596,7 +596,7 @@ if (!isset($_SESSION["isLogin"])) {
             } else {
                 const detail = document.querySelector(".modalDetail");
                 detail.style.display = "block";
-                
+
                 const imageDetail = document.querySelector(".image-detail");
                 const titleDetail = document.querySelector(".title-detail");
                 const locationDetail = document.querySelector(".location-detail");
@@ -627,7 +627,7 @@ if (!isset($_SESSION["isLogin"])) {
 
                 locationDetail.innerHTML = location;
 
-                if(event.image.length != 0) {
+                if (event.image.length != 0) {
                     imageDetail.innerHTML = `<img src="images/${event.image}" alt="event image">`;
                 }
 
@@ -651,7 +651,9 @@ if (!isset($_SESSION["isLogin"])) {
         deleteBtn.addEventListener("click", (e) => {
             const id = document.querySelector(".id-detail").value;
             if (confirm("Yakin ingin menghapus kegiatan ini?")) {
-                var data = { id: id }
+                var data = {
+                    id: id
+                }
                 var xhr = new XMLHttpRequest();
 
                 xhr.open("POST", "./php/deleteData.php", true);
