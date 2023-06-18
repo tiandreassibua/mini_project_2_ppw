@@ -1,17 +1,18 @@
 <?php
 
-header('Content-Type: application/json');
-include "./config.php";
-session_start();
+header('Content-Type: application/json'); // membuat response menjadi json
 
-$userId = $_SESSION["id_user"];
+include "./config.php"; // memanggil koneksi ke database.
+session_start(); // memulai session.
 
-// Get the data from the database.
+$userId = $_SESSION["id_user"]; // mengambil id user dari session.
+
+// mengambil semua data dari database
 $id = $_GET["id"];
 $sql = "SELECT * FROM events_dev WHERE id = '$id' AND id_user = '$userId'";
 $results = $db->query($sql);
 
-// Convert the results to an array.
+// mengkonversi hasil query ke array.
 $events = [];
 foreach ($results as $row) {
     $events[] = array(
@@ -31,5 +32,8 @@ foreach ($results as $row) {
     );
 }
 
+// mengkonversi array ke JSON
 $json_data = json_encode($events);
+
+// menampilkan data json.
 echo $json_data;

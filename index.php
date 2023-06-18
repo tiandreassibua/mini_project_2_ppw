@@ -22,7 +22,6 @@ if (!isset($_SESSION["isLogin"])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="./css/modal.css">
     <link rel="stylesheet" href="./css/style.css" />
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 </head>
 
 <body>
@@ -578,17 +577,17 @@ if (!isset($_SESSION["isLogin"])) {
                         showDetail(data[0]);
                     })
                     .catch(function(error) {
-                        console.log(error);
+                        console.log(JSON.parse(error.message));
                     });
             }
         });
 
         function showDetail(event) {
             let isExpired = false;
-            const date = new Date();
+            const todayDate = new Date();
             const eventEndTime = new Date(event.end_time);
 
-            if (date > eventEndTime) isExpired = true;
+            if (todayDate > eventEndTime) isExpired = true;
 
             if (isExpired) {
                 alert("Kegiatan ini sudah berakhir");

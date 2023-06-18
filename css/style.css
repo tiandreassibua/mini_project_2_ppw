@@ -1,7 +1,8 @@
 :root {
-  --primary-clr: #245953;
-  --bg-primary-clr: #3c3c3c;
-  --bg-secondary-clr: #2c2c2c;
+  --primary-clr: #e85900;
+  --primary-hover-clr: #bd4900;
+  --bg-primary-clr: #3d3d3d;
+  --bg-secondary-clr: #252525;
 }
 
 
@@ -66,7 +67,7 @@ header .user {
 
 .user button:hover {
   cursor: pointer;
-  background-color: #245953c4;
+  background-color: var(--primary-hover-clr);
 }
 
 .name:hover {
@@ -668,7 +669,7 @@ h3.event-title.isExpired~.expired {
     padding: 20px;
     font-size: 70%;
   }
-  
+
   .calendar {
     border-radius: 0;
   }

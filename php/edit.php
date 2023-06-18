@@ -3,13 +3,13 @@
 include "config.php";
 session_start();
 
+// mengambil data kegiatan yang akan diedit.
 $query = "SELECT * FROM `events_dev` WHERE `id` = '" . $_GET['id'] . "'";
 $result = mysqli_query($conn, $query);
 $row = mysqli_fetch_assoc($result);
 
-if ($row["id_user"] !== $_SESSION["id_user"]) {
-    header("location: ../");
-}
+// jika id_user pada kegiatan tidak sama dengan id_user pada session, maka akan diarahkan ke halaman utama.
+if ($row["id_user"] !== $_SESSION["id_user"]) header("location: ../");
 
 ?>
 
@@ -23,7 +23,6 @@ if ($row["id_user"] !== $_SESSION["id_user"]) {
     <title>Edit Kegiatan</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../css/edit.css" />
-    <!-- <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script> -->
 </head>
 
 <body>
@@ -114,13 +113,17 @@ if ($row["id_user"] !== $_SESSION["id_user"]) {
                 duration = selisihHari.toFixed(0) + ' hari ' + (selisihJam % 24).toFixed(0) + ' jam';
             }
 
+            // toFixed(0) berfungsi untuk membulatkan angka desimal ke angka bulat
+
             const time = `${new Date(startTime.value).getDate()} ${namaBulan[new Date(startTime.value).getMonth()]} - ${new Date(endTime.value).getDate()} ${namaBulan[new Date(endTime.value).getMonth()]}`;
 
+            // validasi inputan
             if (title.value == "" || timeFrom == "Invalid Date" || timeTo == "Invalid Date" || lokasi.value == "" || description.value == "") {
                 alert("Inputan tidak boleh kosong!");
                 return;
             }
 
+            // validasi waktu mulai dan waktu selesai kegiatan jika waktu mulai lebih besar atau sama dengan waktu selesai
             if (new Date(timeFrom) >= new Date(timeTo)) {
                 alert("Waktu mulai tidak boleh lebih besar atau sama dengan tanggal selesai!")
                 return;
@@ -140,6 +143,7 @@ if ($row["id_user"] !== $_SESSION["id_user"]) {
                     alert('Ekstensi file yang diupload harus berupa jpg, jpeg, atau png');
                     return;
                 }
+                // jika semua validasi terpenuhi, maka file akan ditambahkan ke formData
                 formData.append("image", image.files[0]);
             }
 
@@ -157,9 +161,7 @@ if ($row["id_user"] !== $_SESSION["id_user"]) {
             formData.append("endTime", timeTo);
 
             var xhr = new XMLHttpRequest();
-
             xhr.open("POST", "update.php", true);
-
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == XMLHttpRequest.DONE) {
                     alert(xhr.responseText);

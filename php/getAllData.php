@@ -1,17 +1,17 @@
 <?php
 
 header('Content-Type: application/json');
-// Create a connection to the database.
+// memanggil koneksi ke database.
 include "./config.php";
 session_start();
 
 $userId = $_SESSION["id_user"];
 
-// Get the data from the database.
+// mengambil seluruh kegiatan dari database.
 $sql = "SELECT DISTINCT day, month, year FROM events_dev WHERE id_user = '$userId'";
-$results = $db->query($sql);
+$results = $conn->query($sql);
 
-// Convert the results to an array.
+// konversi hasil query ke array.
 $events = [];
 foreach ($results as $row) {
     $events[] = array(
@@ -24,7 +24,7 @@ foreach ($results as $row) {
 
 for ($i=0; $i < count($events); $i++) { 
     $sql = 'SELECT * FROM events_dev WHERE day = ' . $events[$i]['day'] . ' AND month = ' . $events[$i]['month'] . ' AND year = ' . $events[$i]['year']. ' AND id_user = '. $userId .'  ORDER BY level DESC';
-    $results = $db->query($sql);
+    $results = $conn->query($sql);
     foreach ($results as $row) {
         $events[$i]['events'][] = array(
             'id' => $row['id'],
@@ -41,10 +41,10 @@ for ($i=0; $i < count($events); $i++) {
     }
 }
 
-// Convert the array to JSON.
+// mengkonversi array ke JSON
 $json_data = json_encode($events);
 
-// echo the JSON data.
+// menampilkan data json.
 echo $json_data;
 
 ?>
