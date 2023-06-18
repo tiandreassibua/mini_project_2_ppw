@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 :root {
-    --primary-clr: #245953;
-    --bg-primary-clr: #3c3c3c;
-    --bg-secondary-clr: #2c2c2c;
+    --primary-clr: #e85900;
+    --primary-hover-clr: #bd4900;
+    --bg-primary-clr: #3d3d3d;
+    --bg-secondary-clr: #252525;
 }
 
 * {
@@ -50,7 +51,7 @@ header .user {
 
 .user button:hover {
     cursor: pointer;
-    background-color: #245953c4;
+    background-color: var(--primary-hover-clr);
 }
 
 .name:hover {
@@ -89,7 +90,7 @@ form {
     margin-top: 20px;
 }
 
-.container form > input,
+.container form>input,
 select,
 textarea {
     display: block;
@@ -129,7 +130,7 @@ a {
 
 .container>.buttons>button:hover {
     cursor: pointer;
-    background-color: #245953c4;
+    background-color: var(--primary-hover-clr);
     text-align: center !important;
 }
 
@@ -176,13 +177,6 @@ label {
     color: red;
     list-style: none;
 }
-
-/* @media screen and (max-width: 1000px) {
-    body {
-        align-items: flex-start;
-        justify-content: flex-start;
-    }
-} */
 
 @media screen and (max-width: 500px) {
     header {

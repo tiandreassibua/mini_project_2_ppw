@@ -171,6 +171,10 @@ if ($row["id_user"] !== $_SESSION["id_user"]) header("location: ../");
 
             xhr.send(formData);
         });
+        function logout() {
+            alert("Yakin ingin logout?");
+            window.location.href = "logout.php";
+        }
     </script>
 </body>
 
